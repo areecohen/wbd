@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    build: ./
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: aree
+      WORDPRESS_DB_PASSWORD: aree
+      WORDPRESS_DB_NAME: wbd
+    volumes:
+      - ./wordpress:/var/www/html
+
+  db:
+    image: mysql:8.0
+    restart: always
+    command: --authentication-policy=mysql_native_password
+    environment:
+      MYSQL_DATABASE: wbd
+      MYSQL_USER: aree
+      MYSQL_PASSWORD: aree
+      MYSQL_ROOT_PASSWORD: aree
+      MYSQL_AUTHENTICATION_POLICY: mysql_native_password
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - 3306:3306
+volumes:
+  wordpress:
+  db:
